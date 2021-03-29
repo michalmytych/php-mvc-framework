@@ -17,8 +17,11 @@ $router = new Router($app->request, $app->response);
 
 $app->router->get('/', 'home');
 $app->router->get('/contact', 'contact');
+$app->router->post('/contact', function() {
+    return 'handling submitted data';
+});
 
 $app->run();
 
-// https://www.youtube.com/watch?v=6ERdu4k62wI&t=6371s 38:01
+// https://www.youtube.com/watch?v=6ERdu4k62wI&t=6371s 57:23
 
