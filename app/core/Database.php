@@ -39,6 +39,7 @@ class Database
                 continue;
             }
             require_once Application::$ROOT_DIR . '/migrations/' . $migration;
+
             $className = pathinfo($migration, PATHINFO_FILENAME);
             $instance = new $className();
             $this->log("Applying migration $migration");
@@ -76,6 +77,11 @@ class Database
         $valuesString = implode(',', array_map(fn($m) => "('$m')", $migrations));
         $stmt = $this->pdo->prepare("INSERT INTO migrations (migration) VALUES $valuesString");
         $stmt->execute();
+    }
+
+    public function prepare(string $sqlString) : \PDOStatement
+    {
+        return $this->pdo->prepare($sqlString);
     }
 
     protected function log(string $message) : void

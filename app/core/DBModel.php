@@ -5,7 +5,7 @@ namespace app\core;
 
 abstract class DBModel extends Model
 {
-    public function save()
+    public function save() : bool
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
@@ -16,13 +16,8 @@ abstract class DBModel extends Model
         );
 
         foreach ($attributes as $attribute) {
-            var_dump($this->{$attribute}); echo '***********';
             $preparedStmt->bindValue(":$attribute", $this->{$attribute});
         }
-
-        echo '<pre>';
-        var_dump($preparedStmt, $attributes, $params);
-        echo '</pre>';
 
         /**
          * @todo - add try catch block for preparedStmt execution (print db errors)

@@ -10,6 +10,7 @@ abstract class Model
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';    // match password to passwordConfirm
+    public const RULE_UNIQUE = 'unique';
     // @todo - implement 'UNIQUE' rule
 
     abstract public function rules() : array;
@@ -50,6 +51,20 @@ abstract class Model
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
                     $this->addError($attr, self::RULE_MATCH, $rule);
                 }
+                if ($ruleName === self::RULE_UNIQUE) {
+                    $className = $rule['class'];
+                    $uniqueAttr = $rule['attribute'] ?? $attr;
+                    $tableName = $className::tableName();
+
+                    $stmt = Application::$app->db->prepare("SELECT * FROM $tableName WHERE $uniqueAttr = :attr");
+                    $stmt->bindValue(":attr", $value);
+                    $stmt->execute();
+                    $record = $stmt->fetchObject();
+                    if ($record) {
+                        $this->addError($attr, self::RULE_UNIQUE, ['field' => $attr]);
+                    }
+                }
+
             }
         }
         return empty($this->errors);
@@ -67,11 +82,12 @@ abstract class Model
     public function errorMessages() : array
     {
         return [
-            self::RULE_REQUIRED   => 'This field is required',
-            self::RULE_EMAIL      => 'This field must be valid email address',
+            self::RULE_REQUIRED => 'This field is required',
+            self::RULE_EMAIL    => 'This field must be valid email address',
             self::RULE_MIN      => 'Minimal length of this field must be {min}',
             self::RULE_MAX      => 'Maximal length of this field must be {max}',
-            self::RULE_MATCH    => 'This field`s value must be same as "{match}" field value.'
+            self::RULE_MATCH    => 'This field`s value must be same as "{match}" field value',
+            self::RULE_UNIQUE   => 'Record with this {field} already exists'
         ];
     }
 
