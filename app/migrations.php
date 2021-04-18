@@ -11,8 +11,17 @@ $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $config = [
+    /*
+     * To powinno działać normalnie ale w kontenerze dockera trzeba się łączyć inaczej
+     *
     'db' => [
         'dsn'         => $_ENV['DB_DSN'],
+        'user'        => $_ENV['DB_USER'],
+        'password'    => $_ENV['DB_PASSWORD']
+    ]
+    */
+    'db' => [
+        'dsn'         => 'mysql:host=localhost:3307;dbname=sf',
         'user'        => $_ENV['DB_USER'],
         'password'    => $_ENV['DB_PASSWORD']
     ]
@@ -21,3 +30,5 @@ $config = [
 $app = new Application(__DIR__, $config);
 
 $app->db->applyMigrations();
+
+

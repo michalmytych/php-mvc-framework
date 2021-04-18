@@ -67,8 +67,8 @@ abstract class Model
     public function errorMessages() : array
     {
         return [
-          self::RULE_REQUIRED   => 'This field is required',
-          self::RULE_EMAIL      => 'This field must be valid email address',
+            self::RULE_REQUIRED   => 'This field is required',
+            self::RULE_EMAIL      => 'This field must be valid email address',
             self::RULE_MIN      => 'Minimal length of this field must be {min}',
             self::RULE_MAX      => 'Maximal length of this field must be {max}',
             self::RULE_MATCH    => 'This field`s value must be same as "{match}" field value.'
