@@ -91,6 +91,11 @@ abstract class Model
         ];
     }
 
+    public function labels() : array
+    {
+        return [];
+    }
+
     public function hasErrors(string $attribute) : bool
     {
         return empty($this->errors[$attribute]) ?? false;

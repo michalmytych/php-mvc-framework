@@ -22,8 +22,6 @@ $app = new Application(dirname(__DIR__), $config);
 
 $router = new Router($app->request, $app->response);
 
-//$app->userRouter($router);
-
 $app->router->get('/', 'home');
 $app->router->get('/contact', 'contact');
 $app->router->post('/contact', [SiteController::class, 'handleContact']);
@@ -34,7 +32,4 @@ $app->router->post('/login', [AuthController::class, 'login']);
 $app->router->post('/register', [AuthController::class, 'register']);
 
 $app->run();
-
-// Create your own framework: https://symfony.com/doc/current/create_framework/introduction.html
-// https://www.youtube.com/watch?v=6ERdu4k62wI&t=6371s 2:38:55
 

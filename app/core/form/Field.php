@@ -27,7 +27,7 @@ class Field
             <label>%s</label><br>
             <input type="%s" name="%s" value="%s" class="%s"><br>            
             <em>%s</em><br>',
-            $this->attribute,
+            $this->model->labels()[$this->attribute] ?? $this->attribute,
             $this->type,
             $this->attribute,
             $this->model->{$this->attribute},
